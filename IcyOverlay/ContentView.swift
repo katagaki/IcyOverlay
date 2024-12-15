@@ -14,10 +14,14 @@ struct ContentView: View {
         @Bindable var progressAlertManager = progressAlertManager
 
         List {
-            Button("Cause overlay to be shown for 2 seconds") {
+            Button("Simulate Content Load") {
                 progressAlertManager.show(title: "Loading...", message: "Loading content") {
                     Task {
-                        try? await Task.sleep(for: .seconds(2))
+                        try? await Task.sleep(for: .seconds(1))
+                        progressAlertManager.percentage = 50
+                        try? await Task.sleep(for: .seconds(1))
+                        progressAlertManager.percentage = 100
+                        try? await Task.sleep(for: .seconds(1))
                         progressAlertManager.hide()
                     }
                 }
@@ -30,7 +34,7 @@ struct ContentView: View {
                     message: $progressAlertManager.message
                 )
             } else {
-                // HACK: DO NOT REMOVE. Removing this will cause a freeze when isShowing is false.
+                // Removing else part causes freeze
                 Color.clear
             }
         }
