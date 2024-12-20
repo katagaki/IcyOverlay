@@ -16,11 +16,10 @@ class ProgressAlertManager {
     var percentage: Int = 0
 
     func show(title: String, message: String, completion: @escaping () -> Void = {}) {
-        // Removing withAnimation fixes freeze
+        self.title = title
+        self.message = message
+        percentage = 0
         withAnimation {
-            self.title = title
-            self.message = message
-            percentage = 0
             isShowing = true
         } completion: {
             completion()
@@ -28,12 +27,12 @@ class ProgressAlertManager {
     }
 
     func hide() {
-        // Removing withAnimation fixes freeze
         withAnimation {
             isShowing = false
-            title = ""
-            message = ""
-            percentage = 0
+        } completion: {
+            self.title = ""
+            self.message = ""
+            self.percentage = 0
         }
     }
 
